@@ -41,7 +41,7 @@ export default function Hero() {
             <div className="hero-image-wrapper absolute inset-0 w-full h-full bg-studio-surface">
                 <Image
                     className="hero-bg-img object-cover brightness-[0.80] contrast-[1.02]"
-                    src="/images/Green Margarita Delight.jpg"
+                    src="/images/hero-bg.png"
                     alt="Green Margarita Delight Full Bleed View"
                     fill
                     priority
