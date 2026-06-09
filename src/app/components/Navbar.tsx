@@ -39,12 +39,12 @@ export default function Navbar() {
             className="fixed top-0 inset-x-0 z-40 px-6 md:px-8 py-6 flex justify-between items-center bg-transparent mix-blend-difference"
         >
             {/* Logo Typography Branding */}
-            <Link href="/" className="text-xl sm:text-2xl font-bold tracking-tighter text-studio-text select-none">
-                FLUID Alchemy
+            <Link href="/" className="text-xl sm:text-2xl font-bold tracking-tighter text-studio-text select-none uppercase">
+                FLUID ALCHEMY
             </Link>
 
             {/* Navigation Map */}
-            <nav className="hidden md:flex items-center gap-10 text-[13px] font-normal tracking-wide opacity-90 text-studio-text">
+            <nav className="hidden md:flex items-center gap-10 text-[14px] leading-[14px] font-semibold tracking-wider text-studio-text uppercase font-sans">
                 <Link href="#index" className="hover:text-studio-accent transition-colors duration-300">INDEX</Link>
                 <Link href="#lab" className="hover:text-studio-accent transition-colors duration-300">THE LAB</Link>
                 <Link href="#journal" className="hover:text-studio-accent transition-colors duration-300">JOURNAL</Link>
