@@ -1,15 +1,101 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import Hero from "./components/hero";
-import Manifesto from "./components/Manifesto";
+import Lab from "./components/Lab";
+import Works from "./components/Works";
+
 import SelectedWorks from "./components/SelectedWorks";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function HomePage() {
+  const scrollWrapperRef = useRef<HTMLDivElement>(null);
+  const heroPinWrapperRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Architectural Pin Matrix Workflow
+    ScrollTrigger.create({
+      trigger: heroPinWrapperRef.current,
+      start: "top top",
+      end: "bottom top",
+      pin: true,           // Locks the Hero frame securely at y:0
+      pinSpacing: false,   // Crucial: lets the Lab flow underneath and overlap natively
+      scrub: true,
+    });
+
+    // Handle the micro-dimming and subtle scale recession of the fixed Hero background
+    gsap.fromTo(heroPinWrapperRef.current,
+      { opacity: 1, scale: 1 },
+      {
+        opacity: 0.15,     // Dims beautifully out of view as specified
+        scale: 0.96,       // Gives a luxurious deep structural recession effect
+        ease: "none",
+        scrollTrigger: {
+          trigger: scrollWrapperRef.current,
+          start: "top top",
+          end: "h-screen", // Animates perfectly across the first viewport descent phase
+          scrub: true,
+          invalidateOnRefresh: true,
+        }
+      }
+    );
+
+    // Opposing sinking motion for the Hero text elements
+    gsap.to(".hero-content-container", {
+      yPercent: 30,       // Moves downward while Lab goes up
+      ease: "none",
+      scrollTrigger: {
+        trigger: scrollWrapperRef.current,
+        start: "top top",
+        end: "h-screen",
+        scrub: true,
+        invalidateOnRefresh: true,
+      }
+    });
+
+    // Layered background parallax sink
+    gsap.to(".hero-bg-canvas", {
+      yPercent: 15,       // Moves downward at a slower speed
+      ease: "none",
+      scrollTrigger: {
+        trigger: scrollWrapperRef.current,
+        start: "top top",
+        end: "h-screen",
+        scrub: true,
+        invalidateOnRefresh: true,
+      }
+    });
+
+  }, { scope: scrollWrapperRef });
+
   return (
-    <div className="w-full flex flex-col gap-0">
-      <Hero />
-      <div className="px-4 md:px-6">
-        <Manifesto />
+    <div ref={scrollWrapperRef} className="w-full bg-[#0B0B0C] flex flex-col relative">
+
+      {/* 
+        LAYER 1: The Pinning Canvas Wrapper. 
+        It sits at z-10 so it cleanly disappears beneath following sections.
+      */}
+      <div ref={heroPinWrapperRef} className="w-full h-screen z-10 bg-[#0B0B0C]">
+        <Hero />
+      </div>
+
+      {/* 
+        LAYER 2: The Lab Block (Opaque, High Stack Elevation).
+        z-20 and solid styling ensure it smoothly slides over the pinned hero.
+      */}
+      <div className="relative z-20 w-full bg-[#0B0B0C]">
+        <Lab />
+        <Works />
         <SelectedWorks />
       </div>
+
     </div>
   );
 }

@@ -2,78 +2,102 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function Hero() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const elementsRef = useRef<HTMLDivElement>(null);
+    const heroRef = useRef<HTMLDivElement>(null);
+    const { contextSafe } = useGSAP({ scope: heroRef });
 
     useGSAP(() => {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-        tl.fromTo(".hero-image-wrapper",
+        tl.fromTo(".hero-bg-canvas",
             { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
-            { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", duration: 1.4 }
+            { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", duration: 1.5 }
         );
 
-        tl.fromTo(".hero-bg-img",
-            { scale: 1.1 },
-            { scale: 1, duration: 1.8 },
+        tl.fromTo(".hero-bg-asset",
+            { scale: 1.12 },
+            { scale: 1, duration: 2 },
             "-=1.2"
         );
 
-        tl.fromTo(".animate-fade-up",
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1, stagger: 0.1 },
-            "-=1"
+        tl.fromTo(".f-reveal",
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1.2, stagger: 0.08 },
+            "-=1.1"
         );
-    }, { scope: containerRef });
+    }, { scope: heroRef });
+
+    const handleButtonHover = contextSafe((e: React.MouseEvent<HTMLDivElement>, isEnter: boolean) => {
+        const primary = e.currentTarget.querySelector(".btn-primary");
+        const secondary = e.currentTarget.querySelector(".btn-secondary");
+        const dot = e.currentTarget.querySelector(".btn-dot");
+
+        gsap.to(primary, { yPercent: isEnter ? -100 : 0, duration: 0.35, ease: "power3.out" });
+        gsap.to(secondary, { yPercent: isEnter ? -100 : 0, duration: 0.35, ease: "power3.out" });
+        gsap.to(dot, {
+            backgroundColor: isEnter ? "#FFFFFF" : "transparent",
+            scale: isEnter ? 0.6 : 1,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
 
     return (
         <section
-            ref={containerRef}
-            className="relative w-full h-screen bg-studio-bg flex flex-col justify-between overflow-hidden"
+            ref={heroRef}
+            className="relative w-full h-screen bg-[#0B0B0C] flex flex-col items-center pt-[100px] pb-[40px] z-10 overflow-hidden will-change-transform"
         >
-            {/* CRITICAL FIX: Changed from inner margins to absolute full bleed inset-0.
-        This forces the background image to take up 100% of the screen's width and height.
-      */}
-            <div className="hero-image-wrapper absolute inset-0 w-full h-full bg-studio-surface">
+            {/* Full Bleed Backdrop Image Canvas */}
+            <div className="hero-bg-canvas absolute inset-0 w-full h-full bg-[#121214] z-0">
                 <Image
-                    className="hero-bg-img object-cover brightness-[0.80] contrast-[1.02]"
-                    src="/images/hero-bg.png"
-                    alt="Green Margarita Delight Full Bleed View"
+                    className="hero-bg-asset object-cover brightness-[0.70] contrast-[1.03]"
+                    src="/images/hero-bg.jpg"
+                    alt="hero-background-image"
                     fill
                     priority
                     sizes="100vw"
                 />
-
-                {/* Central Intersecting Project Metadata Bar */}
-                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 grid grid-cols-2 md:grid-cols-4 px-8 md:px-12 text-studio-text text-xs uppercase tracking-widest pointer-events-none drop-shadow-md font-medium z-10">
-                    <div className="animate-fade-up">[FEATURED PROJECT]</div>
-                    <div className="animate-fade-up hidden md:block">Green Margarita Delight</div>
-                    <div className="animate-fade-up hidden md:block text-center">2026</div>
-                    <div className="animate-fade-up text-right flex items-center justify-end gap-1">
-                        VIEW PROJECT <span className="text-[10px]">⦿</span>
-                    </div>
-                </div>
             </div>
 
-            {/* Base Content Row: Placed absolute at the bottom of the screen, floating right over the visual.
-        Uses mix-blend-difference so the text flips automatically to high-contrast white depending on your background image!
-      */}
-            <div
-                ref={elementsRef}
-                className="absolute bottom-0 inset-x-0 z-20 w-full flex flex-col md:flex-row md:items-end justify-between gap-4 p-8 md:p-12 mt-auto mix-blend-difference"
-            >
-                <div className="max-w-2xl animate-fade-up">
-                    <h2 className="text-[24px] sm:text-[28px] md:text-[33px] font-normal tracking-tight leading-[1.2] text-studio-text max-w-xl">
-                        The FLUID Studio style is defined by strong, solid forms with subtle elegance, natural balance and enduring appeal.
-                    </h2>
-                </div>
+            {/* Responsive Container Boundaries */}
+            <div className="hero-content-container relative z-10 w-full h-full flex flex-col justify-end items-start px-6 md:px-[24px] lg:px-[30px] mt-auto">
+                <div className="w-full flex flex-col items-start gap-[8vh] md:gap-[12vh] lg:gap-[18vh]">
 
-                <div className="animate-fade-up text-xs font-semibold tracking-widest opacity-80 uppercase pb-2 self-end md:self-auto text-studio-text">
-                    (SCROLL DOWN)
+                    {/* MID: Row Metadata Track */}
+                    <div className="w-full grid grid-cols-2 md:grid-cols-4 items-start gap-4 font-sans font-bold text-[15px] md:text-[17px] leading-[20px] tracking-[-0.171px] text-[#FFFFFF] capitalize">
+                        <div className="f-reveal">[FEATURED COCKTAIL]</div>
+                        <div className="f-reveal hidden md:block">GREEN MARGARITA DELIGHT</div>
+                        <div className="f-reveal hidden md:block text-center">2026</div>
+                        <div
+                            onMouseEnter={(e) => handleButtonHover(e, true)}
+                            onMouseLeave={(e) => handleButtonHover(e, false)}
+                            className="f-reveal flex items-center justify-end gap-3 cursor-pointer select-none group text-right overflow-hidden"
+                        >
+                            <div className="h-[15px] md:h-[17px] overflow-hidden relative block leading-none font-sans font-medium text-[15px] md:text-[17px] tracking-[-0.171px] text-[#FFFFFF]">
+                                <span className="btn-primary block h-full">
+                                    VIEW PROJECT
+                                </span>
+                                <span className="btn-secondary block h-full absolute top-full left-0 text-studio-accent">
+                                    VIEW PROJECT
+                                </span>
+                            </div>
+                            <div className="btn-dot w-[9px] h-[9px] border border-[#FFFFFF] rounded-full" />
+                        </div>
+                    </div>
+
+                    {/* BOTTOM: Typography Headline Matrix */}
+                    <div className="w-full flex flex-col md:flex-row justify-between items-end gap-8">
+                        <h2 className="f-reveal w-full max-w-[670px] font-sans font-medium text-[24px] sm:text-[30px] md:text-[36.3px] leading-[1.25] md:leading-[50px] tracking-[-0.171px] text-[#FFFFFF]">
+                            The FLUID Studio style is defined by strong, solid forms with subtle elegance, natural balance and enduring appeal.
+                        </h2>
+                        <div className="f-reveal shrink-0 font-sans font-medium text-[15px] md:text-[17px] tracking-[-0.171px] text-[#FFFFFF] uppercase opacity-70 select-none animate-pulse pb-2">
+                            [SCROLL DOWN]
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>

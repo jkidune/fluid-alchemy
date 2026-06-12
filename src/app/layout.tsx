@@ -14,13 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="antialiased selection:bg-studio-accent selection:text-studio-bg bg-studio-bg">
-        {/* Global Navigation - Floats completely seamlessly over full-bleed components */}
+    <html lang="en" className="scroll-smooth">
+      <body className="antialiased bg-[#0B0B0C] text-[#FCFCFC] overflow-x-hidden">
+        {/* Global Reactive Floating Navigation Header */}
         <Navbar />
 
-        {/* Content canvas starts immediately at pixel 0, 0 */}
-        <main className="w-full min-h-screen">
+        {/* Content canvas starts cleanly from pixel 0, 0 without structural barriers */}
+        <main className="w-full">
           {children}
         </main>
 
