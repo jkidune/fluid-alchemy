@@ -10,7 +10,7 @@ export default function Footer() {
                 <div className="flex flex-col gap-6">
                     <div className="relative w-full h-48 bg-studio-surface overflow-hidden">
                         <Image
-                            src="/images/Iced Coffee Close-Up.jpg"
+                            src="/images/Iced Coffee Close-Up.png"
                             alt="Lab R&D Focus Visual"
                             fill
                             className="object-cover grayscale contrast-110"

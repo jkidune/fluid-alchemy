@@ -12,7 +12,7 @@ const MOCKED_WORKS = [
         year: "2026",
         img: "/images/Iced Coffee Close-Up.png",
         heightClass: "h-[487.5px]",
-        gridColumnSpan: "col-span-12 md:col-span-6" // Takes up exactly half of the 12-column grid
+        gridColumnSpan: "col-span-12 md:col-span-6"
     },
     {
         id: "02",
@@ -20,7 +20,7 @@ const MOCKED_WORKS = [
         year: "2026",
         img: "/images/Iced Beverage on Stone.png",
         heightClass: "h-[975px]",
-        gridColumnSpan: "col-span-12 md:col-span-6 lg:translate-y-[66px]" // Staggered downward offset
+        gridColumnSpan: "col-span-12 md:col-span-6 lg:translate-y-[66px]"
     },
     {
         id: "03",
@@ -28,7 +28,7 @@ const MOCKED_WORKS = [
         year: "2026",
         img: "/images/Iced Cocktail Display.png",
         heightClass: "h-[815px]",
-        gridColumnSpan: "col-span-12 md:col-span-5" // Custom asymmetric span width
+        gridColumnSpan: "col-span-12 md:col-span-5"
     },
     {
         id: "04",
@@ -42,57 +42,35 @@ const MOCKED_WORKS = [
 
 export default function Works() {
     const sectionRef = useRef<HTMLDivElement>(null);
-    const cursorRef = useRef<HTMLDivElement>(null);
     const { contextSafe } = useGSAP({ scope: sectionRef });
 
-    // Track mouse movement smoothly
-    useGSAP(() => {
-        const cursor = cursorRef.current;
-        if (!cursor) return;
-
-        const onMouseMove = (e: MouseEvent) => {
-            gsap.to(cursor, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.4,
-                ease: "power3.out",
-                overwrite: "auto"
-            });
-        };
-
-        window.addEventListener("mousemove", onMouseMove);
-        return () => window.removeEventListener("mousemove", onMouseMove);
-    }, { scope: sectionRef });
-
+    // Premium card sliding interaction controller
     const handleCardHover = contextSafe((e: React.MouseEvent<HTMLDivElement>, isEnter: boolean) => {
-        const cursor = cursorRef.current;
         const img = e.currentTarget.querySelector(".work-card-image");
-        const title = e.currentTarget.querySelector(".work-card-title");
+        const year = e.currentTarget.querySelector(".work-card-year");
+        const btn = e.currentTarget.querySelector(".work-card-btn");
 
-        if (cursor) {
-            gsap.to(cursor, {
-                scale: isEnter ? 1 : 0,
-                opacity: isEnter ? 1 : 0,
-                borderRadius: isEnter ? "12px" : "50%",
-                duration: 0.45,
-                ease: isEnter ? "power3.out" : "power3.inOut"
-            });
-        }
-
+        // 1. Precise, subtle image scaling bounds
         if (img) {
             gsap.to(img, {
                 scale: isEnter ? 1.03 : 1,
                 filter: isEnter ? "grayscale(0%) brightness(100%)" : "grayscale(100%) brightness(90%)",
-                duration: 0.8,
+                duration: 0.6,
                 ease: "power2.out"
             });
         }
 
-        if (title) {
-            gsap.to(title, {
-                x: isEnter ? 10 : 0,
-                duration: 0.35,
-                ease: "power2.out"
+        // 2. Synchronized micro-text roll transition matching other site components
+        if (year && btn) {
+            gsap.to(year, {
+                yPercent: isEnter ? -100 : 0,
+                duration: 0.4,
+                ease: "power3.out"
+            });
+            gsap.to(btn, {
+                yPercent: isEnter ? -100 : 0,
+                duration: 0.4,
+                ease: "power3.out"
             });
         }
     });
@@ -118,16 +96,13 @@ export default function Works() {
             id="index"
             className="w-full bg-[#0B0B0C] flex flex-col items-center py-[100px] z-30 relative"
         >
-            {/* Global Framework Boundary Layout Wrapper */}
             <div className="w-full px-6 md:px-[24px] lg:px-[30px] flex flex-col gap-[25.76px]">
 
                 {/* ================= TITLE BLOCK ROW ================= */}
-                {/* FIXED: Switched align-items to flex-start to establish left axis lock */}
                 <div className="w-full flex flex-col justify-center items-start h-[320px] select-none border-b border-white/10">
                     <h2 className="w-full font-sans font-medium text-[64px] sm:text-[100px] md:text-[152px] leading-[160px] tracking-[-0.171px] text-[#FCFCFC] uppercase">
                         Featured
                     </h2>
-                    {/* Lower Title Row Track spreading left to right */}
                     <div className="w-full flex justify-between items-baseline h-[160px]">
                         <h2 className="font-sans font-medium text-[64px] sm:text-[100px] md:text-[152px] leading-[160px] tracking-[-0.171px] text-[#FCFCFC] uppercase">
                             Works
@@ -139,7 +114,6 @@ export default function Works() {
                 </div>
 
                 {/* ================= 12-COLUMN MASONRY MATRIX GRID ================= */}
-                {/* FIXED: Configured strict 12 columns, 16px horizontal gap, 132px vertical gap */}
                 <div className="w-full grid grid-cols-12 gap-x-4 gap-y-[132px] pt-16">
                     {MOCKED_WORKS.map((work) => (
                         <div
@@ -148,7 +122,7 @@ export default function Works() {
                             onMouseLeave={(e) => handleCardHover(e, false)}
                             className={`${work.gridColumnSpan} flex flex-col gap-3 group cursor-pointer`}
                         >
-                            {/* Image Frame Container (Matches your explicit height rules) */}
+                            {/* Image Container Window */}
                             <div className={`relative w-full ${work.heightClass} bg-[#121214] overflow-hidden`}>
                                 <Image
                                     src={work.img}
@@ -160,17 +134,24 @@ export default function Works() {
                                 />
                             </div>
 
-                            {/* Detail Output Row Block */}
+                            {/* Detail Outputs Row */}
                             <div className="w-full flex justify-between items-start pt-1.5 font-sans font-bold text-[17.1px] leading-[17px] tracking-[-0.171px]">
                                 <div className="flex items-center gap-6 text-[#FCFCFC] uppercase">
-                                    <span>({work.id})</span>
+                                    <span className="text-studio-accent opacity-60">({work.id})</span>
                                     <h3 className="work-card-title group-hover:text-studio-accent transition-colors duration-300">
                                         {work.title}
                                     </h3>
                                 </div>
-                                <span className="font-medium text-[#4F4F4F]">
-                                    {work.year}
-                                </span>
+
+                                {/* Right Side Context Layer: Clean, overflow-masked rolling container */}
+                                <div className="h-[17px] overflow-hidden relative block leading-none text-right min-w-[130px]">
+                                    <span className="work-card-year block h-full text-[#4F4F4F] transition-transform duration-300">
+                                        {work.year}
+                                    </span>
+                                    <span className="work-card-btn block h-full absolute top-full right-0 text-[#FCFCFC]/80 font-medium whitespace-nowrap transition-transform duration-300">
+                                        VIEW PROJECT →
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -196,16 +177,6 @@ export default function Works() {
                     </a>
                 </div>
 
-            </div>
-
-            {/* Custom Glassmorphic Cursor Follower */}
-            <div
-                ref={cursorRef}
-                className="pointer-events-none fixed top-0 left-0 w-[110px] h-[110px] bg-[#FCFCFC]/5 backdrop-blur-md border border-[#FCFCFC]/15 rounded-[50%] flex items-center justify-center text-center select-none z-50 scale-0 opacity-0 -translate-x-1/2 -translate-y-1/2 shadow-[0_24px_50px_rgba(0,0,0,0.6)] will-change-transform"
-            >
-                <span className="font-sans font-medium text-[11px] tracking-[0.15em] text-[#FCFCFC] leading-none uppercase">
-                    View Drink
-                </span>
             </div>
         </section>
     );
