@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import SmoothScroll from "./components/SmoothScroll";
 
 export const metadata: Metadata = {
   title: "FLUID ALCHEMY — Premium Mixology Portfolio",
@@ -16,6 +17,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="antialiased bg-[#0B0B0C] text-[#FCFCFC] overflow-x-hidden">
+        <SmoothScroll />
+
         {/* Global Reactive Floating Navigation Header */}
         <Navbar />
 
