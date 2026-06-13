@@ -8,8 +8,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Hero from "./components/hero";
 import Lab from "./components/Lab";
 import Works from "./components/Works";
-import Manifesto from "./components/Manifesto";
-import SelectedWorks from "./components/SelectedWorks";
+import Process from "./components/Ourprocess";
+import Testimonial from "./components/Testimonial";
+import CTA from "./components/CTA";
+//import Manifesto from "./components/Manifesto";
+//import SelectedWorks from "./components/SelectedWorks";
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
@@ -94,8 +97,12 @@ export default function Home() {
             <div className="relative z-20 w-full bg-[#0B0B0C]">
                 <Lab />
                 <Works />
-                <Manifesto />
-                <SelectedWorks />
+                <Process />
+                <Testimonial />
+                <CTA />
+
+                {/*  <Manifesto /> */}
+                {/*  <SelectedWorks /> */}
             </div>
         </div>
     );

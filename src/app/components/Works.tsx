@@ -1,155 +1,276 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type MouseEvent } from "react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-const MOCKED_WORKS = [
+const FIGMA_W = 1464;
+const FIGMA_H = 3256.93;
+
+const pctX = (value: number) => `${(value / FIGMA_W) * 100}%`;
+const pctY = (value: number) => `${(value / FIGMA_H) * 100}%`;
+
+const WORKS = [
     {
         id: "01",
         title: "BLOODY MARY COCKTAIL",
         year: "2026",
         img: "/images/Iced Coffee Close-Up.png",
-        heightClass: "h-[487.5px]",
-        gridColumnSpan: "col-span-12 md:col-span-6"
+        x: 0,
+        y: 0,
+        w: 724,
+        imageH: 487.5,
+        priority: true,
     },
     {
         id: "02",
         title: "VIBRANT BLUE LAGOON COCKTAIL",
         year: "2026",
-        img: "/images/Iced Beverage on Stone.png",
-        heightClass: "h-[975px]",
-        gridColumnSpan: "col-span-12 md:col-span-6 lg:translate-y-[66px]"
+        img: "/images/Vibrant Cocktail Trio.png",
+        x: 740,
+        y: 0,
+        w: 724,
+        imageH: 975,
+        priority: false,
     },
     {
         id: "03",
-        title: "CRIMSON TROPIC COMPOSITION",
+        title: "VIBRANT BLUE LAGOON COCKTAIL",
         year: "2026",
         img: "/images/Iced Cocktail Display.png",
-        heightClass: "h-[815px]",
-        gridColumnSpan: "col-span-12 md:col-span-5"
+        x: 0,
+        y: 1404.33,
+        w: 600.67,
+        imageH: 815,
+        priority: false,
     },
     {
         id: "04",
-        title: "SMOKED NEGRONI SILHOUETTE",
-        year: "2025",
+        title: "VIBRANT BLUE LAGOON COCKTAIL",
+        year: "2026",
+        img: "/images/Vibrant Cocktails Display.png",
+        x: 740,
+        y: 1404.33,
+        w: 724,
+        imageH: 495,
+        priority: false,
+    },
+    {
+        id: "05",
+        title: "VIBRANT BLUE LAGOON COCKTAIL",
+        year: "2026",
         img: "/images/Colorful Cocktails Display.png",
-        heightClass: "h-[495px]",
-        gridColumnSpan: "col-span-12 md:col-span-7"
-    }
+        x: 0,
+        y: 2598.05,
+        w: 724,
+        imageH: 495,
+        priority: false,
+    },
+    {
+        id: "06",
+        title: "VIBRANT BLUE LAGOON COCKTAIL",
+        year: "2026",
+        img: "/images/Vibrant Cocktails Display.png",
+        x: 863.33,
+        y: 2598.05,
+        w: 600.67,
+        imageH: 400,
+        priority: false,
+    },
 ];
 
 export default function Works() {
     const sectionRef = useRef<HTMLDivElement>(null);
     const { contextSafe } = useGSAP({ scope: sectionRef });
 
-    // Premium card sliding interaction controller
-    const handleCardHover = contextSafe((e: React.MouseEvent<HTMLDivElement>, isEnter: boolean) => {
-        const img = e.currentTarget.querySelector(".work-card-image");
-        const year = e.currentTarget.querySelector(".work-card-year");
-        const btn = e.currentTarget.querySelector(".work-card-btn");
+    const handleCardHover = contextSafe(
+        (e: MouseEvent<HTMLDivElement>, isEnter: boolean) => {
+            const img = e.currentTarget.querySelector(".work-card-image");
+            const year = e.currentTarget.querySelector(".work-card-year");
+            const btn = e.currentTarget.querySelector(".work-card-btn");
 
-        // 1. Precise, subtle image scaling bounds
-        if (img) {
-            gsap.to(img, {
-                scale: isEnter ? 1.03 : 1,
-                filter: isEnter ? "grayscale(0%) brightness(100%)" : "grayscale(100%) brightness(90%)",
-                duration: 0.6,
-                ease: "power2.out"
+            if (img) {
+                gsap.to(img, {
+                    scale: isEnter ? 1.03 : 1,
+                    filter: isEnter
+                        ? "grayscale(0%) brightness(100%)"
+                        : "grayscale(100%) brightness(90%)",
+                    duration: 0.6,
+                    ease: "power2.out",
+                });
+            }
+
+            if (year && btn) {
+                gsap.to(year, {
+                    yPercent: isEnter ? -100 : 0,
+                    duration: 0.4,
+                    ease: "power3.out",
+                });
+
+                gsap.to(btn, {
+                    yPercent: isEnter ? -100 : 0,
+                    duration: 0.4,
+                    ease: "power3.out",
+                });
+            }
+        }
+    );
+
+    const handleButtonHover = contextSafe(
+        (e: MouseEvent<HTMLAnchorElement>, isEnter: boolean) => {
+            const primary = e.currentTarget.querySelector(".works-btn-primary");
+            const secondary = e.currentTarget.querySelector(".works-btn-secondary");
+            const dot = e.currentTarget.querySelector(".works-btn-dot");
+
+            gsap.to(primary, {
+                yPercent: isEnter ? -100 : 0,
+                duration: 0.35,
+                ease: "power3.out",
+            });
+
+            gsap.to(secondary, {
+                yPercent: isEnter ? -100 : 0,
+                duration: 0.35,
+                ease: "power3.out",
+            });
+
+            gsap.to(dot, {
+                backgroundColor: isEnter ? "#FCFCFC" : "transparent",
+                scale: isEnter ? 0.6 : 1,
+                duration: 0.3,
+                ease: "power2.out",
             });
         }
-
-        // 2. Synchronized micro-text roll transition matching other site components
-        if (year && btn) {
-            gsap.to(year, {
-                yPercent: isEnter ? -100 : 0,
-                duration: 0.4,
-                ease: "power3.out"
-            });
-            gsap.to(btn, {
-                yPercent: isEnter ? -100 : 0,
-                duration: 0.4,
-                ease: "power3.out"
-            });
-        }
-    });
-
-    const handleButtonHover = contextSafe((e: React.MouseEvent<HTMLAnchorElement>, isEnter: boolean) => {
-        const primary = e.currentTarget.querySelector(".works-btn-primary");
-        const secondary = e.currentTarget.querySelector(".works-btn-secondary");
-        const dot = e.currentTarget.querySelector(".works-btn-dot");
-
-        gsap.to(primary, { yPercent: isEnter ? -100 : 0, duration: 0.35, ease: "power3.out" });
-        gsap.to(secondary, { yPercent: isEnter ? -100 : 0, duration: 0.35, ease: "power3.out" });
-        gsap.to(dot, {
-            backgroundColor: isEnter ? "#FCFCFC" : "transparent",
-            scale: isEnter ? 0.6 : 1,
-            duration: 0.3,
-            ease: "power2.out"
-        });
-    });
+    );
 
     return (
         <section
             ref={sectionRef}
             id="index"
-            className="w-full bg-[#0B0B0C] flex flex-col items-center py-[100px] z-30 relative"
+            className="relative z-30 flex w-full flex-col items-center bg-[#0B0B0C] py-[clamp(40px,6.83vw,100px)]"
         >
-            <div className="w-full px-6 md:px-[24px] lg:px-[30px] flex flex-col gap-[25.76px]">
+            <div className="flex w-full flex-col px-[clamp(10px,2.05vw,30px)]">
 
-                {/* ================= TITLE BLOCK ROW ================= */}
-                <div className="w-full flex flex-col justify-center items-start h-[320px] select-none border-b border-white/10">
-                    <h2 className="w-full font-sans font-medium text-[64px] sm:text-[100px] md:text-[152px] leading-[160px] tracking-[-0.171px] text-[#FCFCFC] uppercase">
+                {/* ================= TITLE BLOCK ================= */}
+                <div className="mx-auto w-full max-w-[1464px] select-none [container-type:inline-size]">
+                    <h2 className="font-sans text-[clamp(42px,10.38cqw,152px)] font-medium uppercase leading-[clamp(42px,10.93cqw,160px)] tracking-[-0.171px] text-[#FCFCFC]">
                         Featured
                     </h2>
-                    <div className="w-full flex justify-between items-baseline h-[160px]">
-                        <h2 className="font-sans font-medium text-[64px] sm:text-[100px] md:text-[152px] leading-[160px] tracking-[-0.171px] text-[#FCFCFC] uppercase">
+
+                    <div className="relative h-[clamp(42px,10.93cqw,160px)] w-full">
+                        <h2 className="absolute left-[33.5%] top-0 font-sans text-[clamp(42px,10.38cqw,152px)] font-medium uppercase leading-[clamp(42px,10.93cqw,160px)] tracking-[-0.171px] text-[#FCFCFC]">
                             Works
                         </h2>
-                        <span className="font-sans font-medium text-[64px] sm:text-[100px] md:text-[152px] leading-[160px] tracking-[-0.171px] text-studio-accent/20">
+
+                        <span className="absolute right-0 top-0 font-sans text-[clamp(42px,10.38cqw,152px)] font-medium leading-[clamp(42px,10.93cqw,160px)] tracking-[-0.171px] text-studio-accent/20">
                             (07)
                         </span>
                     </div>
                 </div>
 
-                {/* ================= 12-COLUMN MASONRY MATRIX GRID ================= */}
-                <div className="w-full grid grid-cols-12 gap-x-4 gap-y-[132px] pt-16">
-                    {MOCKED_WORKS.map((work) => (
+                {/* ================= DESKTOP / TABLET: EXACT FIGMA WORK CONTAINER ================= */}
+                <div className="mx-auto mt-[clamp(40px,4.37vw,64px)] hidden aspect-[1464/3256.93] w-full max-w-[1464px] [container-type:inline-size] md:block">
+                    <div className="relative h-full w-full">
+                        {WORKS.map((work) => (
+                            <div
+                                key={work.id}
+                                onMouseEnter={(e) => handleCardHover(e, true)}
+                                onMouseLeave={(e) => handleCardHover(e, false)}
+                                className="group absolute flex cursor-pointer flex-col gap-[clamp(3px,0.82cqw,12px)]"
+                                style={{
+                                    left: pctX(work.x),
+                                    top: pctY(work.y),
+                                    width: pctX(work.w),
+                                }}
+                            >
+                                <div
+                                    className="relative w-full overflow-hidden bg-[#121214]"
+                                    style={{
+                                        aspectRatio: `${work.w} / ${work.imageH}`,
+                                    }}
+                                >
+                                    <Image
+                                        src={work.img}
+                                        alt={work.title}
+                                        fill
+                                        priority={work.priority}
+                                        className="work-card-image object-cover grayscale brightness-90 will-change-transform"
+                                        sizes="(max-width: 1464px) 50vw, 724px"
+                                        unoptimized
+                                    />
+                                </div>
+
+                                <div className="flex w-full items-start justify-between font-sans text-[clamp(5px,1.168cqw,17.1px)] font-bold uppercase leading-[clamp(5px,1.161cqw,17px)] tracking-[-0.171px]">
+                                    <div className="flex items-center gap-[clamp(7px,1.64cqw,24px)] text-[#FCFCFC]">
+                                        <span className="text-studio-accent opacity-60">
+                                            ({work.id})
+                                        </span>
+
+                                        <h3 className="work-card-title transition-colors duration-300 group-hover:text-studio-accent">
+                                            {work.title}
+                                        </h3>
+                                    </div>
+
+                                    <div className="relative block h-[clamp(5px,1.161cqw,17px)] min-w-[clamp(40px,9.56cqw,140px)] overflow-hidden text-right leading-none">
+                                        <span className="work-card-year block h-full pr-1 text-[#4F4F4F] transition-transform duration-300">
+                                            {work.year}
+                                        </span>
+
+                                        <span className="work-card-btn absolute right-0 top-full block h-full whitespace-nowrap pl-2 font-medium text-[#FCFCFC]/80 transition-transform duration-300">
+                                            VIEW PROJECT →
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* ================= MOBILE: STACKED RESPONSIVE VERSION ================= */}
+                <div className="mt-10 flex w-full flex-col gap-12 md:hidden">
+                    {WORKS.map((work) => (
                         <div
                             key={work.id}
                             onMouseEnter={(e) => handleCardHover(e, true)}
                             onMouseLeave={(e) => handleCardHover(e, false)}
-                            className={`${work.gridColumnSpan} flex flex-col gap-3 group cursor-pointer`}
+                            className="group flex w-full cursor-pointer flex-col gap-3"
                         >
-                            {/* Image Container Window */}
-                            <div className={`relative w-full ${work.heightClass} bg-[#121214] overflow-hidden`}>
+                            <div
+                                className="relative w-full overflow-hidden bg-[#121214]"
+                                style={{
+                                    aspectRatio: `${work.w} / ${work.imageH}`,
+                                }}
+                            >
                                 <Image
                                     src={work.img}
                                     alt={work.title}
                                     fill
-                                    priority={work.id === "01"}
+                                    priority={work.priority}
                                     className="work-card-image object-cover grayscale brightness-90 will-change-transform"
-                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    sizes="100vw"
+                                    unoptimized
                                 />
                             </div>
 
-                            {/* Detail Outputs Row */}
-                            <div className="w-full flex justify-between items-start pt-1.5 font-sans font-bold text-[17.1px] leading-[17px] tracking-[-0.171px]">
-                                <div className="flex items-center gap-6 text-[#FCFCFC] uppercase">
-                                    <span className="text-studio-accent opacity-60">({work.id})</span>
-                                    <h3 className="work-card-title group-hover:text-studio-accent transition-colors duration-300">
+                            <div className="flex w-full items-start justify-between gap-4 font-sans text-[11px] font-bold uppercase leading-[11px] tracking-[-0.171px]">
+                                <div className="flex min-w-0 items-center gap-3 text-[#FCFCFC]">
+                                    <span className="shrink-0 text-studio-accent opacity-60">
+                                        ({work.id})
+                                    </span>
+
+                                    <h3 className="work-card-title truncate transition-colors duration-300 group-hover:text-studio-accent">
                                         {work.title}
                                     </h3>
                                 </div>
 
-                                {/* Right Side Context Layer: Clean, overflow-masked rolling container */}
-                                <div className="h-[17px] overflow-hidden relative block leading-none text-right min-w-[130px]">
+                                <div className="relative block h-[11px] min-w-[70px] shrink-0 overflow-hidden text-right leading-none">
                                     <span className="work-card-year block h-full text-[#4F4F4F] transition-transform duration-300">
                                         {work.year}
                                     </span>
-                                    <span className="work-card-btn block h-full absolute top-full right-0 text-[#FCFCFC]/80 font-medium whitespace-nowrap transition-transform duration-300">
-                                        VIEW PROJECT →
+
+                                    <span className="work-card-btn absolute right-0 top-full block h-full whitespace-nowrap font-medium text-[#FCFCFC]/80 transition-transform duration-300">
+                                        VIEW →
                                     </span>
                                 </div>
                             </div>
@@ -157,26 +278,27 @@ export default function Works() {
                     ))}
                 </div>
 
-                {/* ================= BOTTOM ACTION ROW MODULE ================= */}
-                <div className="w-full flex justify-center items-center pt-[132px]">
+                {/* ================= BOTTOM ACTION ROW ================= */}
+                <div className="flex w-full items-center justify-center pt-[clamp(60px,6.83vw,100px)]">
                     <a
                         href="#portfolio-index"
                         onMouseEnter={(e) => handleButtonHover(e, true)}
                         onMouseLeave={(e) => handleButtonHover(e, false)}
-                        className="w-[193.7px] h-[50px] bg-[#080807] border border-[#FCFCFC]/20 rounded-[1920px] flex items-center justify-center gap-[16px] text-[#FCFCFC] font-sans font-medium text-[16px] overflow-hidden cursor-pointer select-none"
+                        className="flex h-[50px] w-[193.7px] cursor-pointer select-none items-center justify-center gap-[16px] overflow-hidden rounded-[1920px] border border-[#FCFCFC]/20 bg-[#080807] font-sans text-[16px] font-medium text-[#FCFCFC]"
                     >
-                        <div className="h-[16px] overflow-hidden relative block leading-none">
+                        <div className="relative block h-[16px] overflow-hidden leading-none">
                             <span className="works-btn-primary block h-full">
                                 ALL PROJECTS
                             </span>
-                            <span className="works-btn-secondary block h-full absolute top-full left-0 text-studio-accent">
+
+                            <span className="works-btn-secondary absolute left-0 top-full block h-full text-studio-accent">
                                 ALL PROJECTS
                             </span>
                         </div>
-                        <div className="works-btn-dot w-2 h-2 border border-[#FCFCFC] rounded-full" />
+
+                        <div className="works-btn-dot h-2 w-2 rounded-full border border-[#FCFCFC]" />
                     </a>
                 </div>
-
             </div>
         </section>
     );
