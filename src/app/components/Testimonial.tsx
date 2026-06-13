@@ -124,8 +124,8 @@ export default function Testimonies() {
             id="testimonies"
             className="relative z-20 flex w-full flex-col items-center bg-[#FCFCFC] py-[clamp(60px,6.61vw,100px)]"
         >
-            <div className="flex w-full flex-col items-center px-6">
-                <div className="flex w-full max-w-[1464px] flex-col gap-[clamp(28px,2.64vw,38.64px)]">
+            <div className="flex w-full flex-col px-6 lg:px-[30px]">
+                <div className="flex w-full flex-col gap-[clamp(28px,2.64vw,38.64px)]">
 
                     {/* ================= TITLE ================= */}
                     <div className="w-full select-none [container-type:inline-size]">
@@ -161,7 +161,7 @@ export default function Testimonies() {
                                         alt="Cocktail served during a client event"
                                         fill
                                         className="object-cover grayscale brightness-90 transition-all duration-700 ease-out hover:grayscale-0 hover:brightness-100"
-                                        sizes="600px"
+                                        sizes="42vw"
                                         unoptimized
                                     />
                                 </div>
@@ -217,7 +217,7 @@ export default function Testimonies() {
                                         alt="Dar es Salaam wedding cocktail project"
                                         fill
                                         className="testimonies-project-image object-cover grayscale brightness-90 will-change-transform"
-                                        sizes="600px"
+                                        sizes="42vw"
                                         unoptimized
                                     />
                                 </div>

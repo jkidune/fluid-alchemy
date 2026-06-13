@@ -145,8 +145,8 @@ export default function Process() {
             id="process"
             className="relative z-20 flex w-full flex-col items-center bg-[#FCFCFC] py-[clamp(60px,6.61vw,100px)]"
         >
-            <div className="flex w-full flex-col items-center px-6">
-                <div className="w-full max-w-[1464px]">
+            <div className="flex w-full flex-col px-6 lg:px-[30px]">
+                <div className="w-full">
 
                     {/* ================= DESKTOP / TABLET LAYOUT ================= */}
                     <div className="process-content hidden aspect-[1464/792] w-full [container-type:inline-size] md:block">
@@ -174,7 +174,7 @@ export default function Process() {
                                         alt="Cocktail preparation process"
                                         fill
                                         className="object-cover grayscale brightness-90 transition-all duration-700 ease-out hover:grayscale-0 hover:brightness-100"
-                                        sizes="354px"
+                                        sizes="25vw"
                                         unoptimized
                                     />
                                 </div>

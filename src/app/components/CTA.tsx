@@ -89,8 +89,8 @@ export default function CTA() {
             id="cta"
             className="relative z-20 flex w-full flex-col items-center bg-[#0E0E0E] py-[clamp(70px,6.61vw,100px)]"
         >
-            <div className="flex w-full flex-col items-center px-[clamp(10px,1.59vw,24px)]">
-                <div className="cta-content flex w-full max-w-[1464px] flex-col">
+            <div className="flex w-full flex-col px-6 lg:px-[30px]">
+                <div className="cta-content flex w-full flex-col">
 
                     {/* TEXT BLOCK */}
                     <div className="flex w-full flex-col">

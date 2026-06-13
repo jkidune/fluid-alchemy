@@ -87,20 +87,20 @@ export default function Footer() {
             ref={footerRef}
             className="relative z-0 flex min-h-[100svh] w-full flex-col justify-between overflow-hidden border-t border-[#DCDDDE] bg-[#FCFCFC] px-[clamp(16px,2vw,30.56px)] pb-6 pt-[clamp(24px,2.23vw,33.728px)] lg:sticky lg:bottom-0 lg:h-[100svh] lg:max-h-[100svh]"
         >
-            <div className="footer-inner mx-auto flex h-full w-full max-w-[1450.88px] flex-col justify-between gap-[clamp(28px,5vh,80px)]">
+            <div className="footer-inner flex h-full w-full flex-col justify-between gap-[clamp(28px,5vh,80px)]">
 
                 {/* ================= TOP FOOTER ================= */}
-                <div className="grid min-h-0 w-full flex-1 grid-cols-1 gap-10 lg:grid-cols-[minmax(240px,350.72px)_minmax(300px,472.96px)_minmax(300px,472.96px)] lg:justify-between lg:overflow-hidden">
+                <div className="grid min-h-0 w-full flex-1 grid-cols-1 gap-10 lg:grid-cols-[minmax(240px,0.85fr)_minmax(300px,1.15fr)_minmax(300px,1.15fr)] lg:gap-[clamp(32px,5vw,96px)] lg:overflow-hidden">
 
                     {/* LEFT IMAGE / BRAND */}
-                    <div className="flex w-full flex-col justify-between gap-5 lg:w-[350.72px]">
+                    <div className="flex w-full flex-col justify-between gap-5">
                         <div className="relative hidden h-[clamp(260px,44vh,460px)] w-full overflow-hidden bg-[#DCDDDE] lg:block">
                             <Image
                                 src="/images/Iced Cocktail Display.png"
                                 alt="Fluid Alchemy cocktail presentation"
                                 fill
                                 className="object-cover grayscale brightness-[0.92] transition-all duration-700 ease-out hover:scale-[1.035] hover:grayscale-0 hover:brightness-100"
-                                sizes="351px"
+                                sizes="30vw"
                                 unoptimized
                             />
                         </div>
@@ -115,7 +115,7 @@ export default function Footer() {
                     </div>
 
                     {/* CENTER NAV */}
-                    <nav className="flex w-full flex-col gap-[clamp(10px,1.3vh,16px)] lg:w-[472.96px]">
+                    <nav className="flex w-full flex-col gap-[clamp(10px,1.3vh,16px)]">
                         <div className="font-sans text-[15px] font-medium uppercase leading-[21px] tracking-[-0.171px] text-black md:text-[17.1px]">
                             Menu
                         </div>
@@ -138,7 +138,7 @@ export default function Footer() {
                     </nav>
 
                     {/* RIGHT INFO */}
-                    <div className="flex w-full flex-col justify-start gap-[clamp(34px,5vh,74.23px)] lg:w-[472.96px]">
+                    <div className="flex w-full flex-col justify-start gap-[clamp(34px,5vh,74.23px)]">
 
                         <div className="flex flex-col gap-[16.04px]">
                             <div className="font-sans text-[15px] font-medium uppercase leading-[21px] tracking-[-0.171px] text-black md:text-[17.1px]">

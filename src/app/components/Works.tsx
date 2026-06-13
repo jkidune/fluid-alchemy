@@ -150,10 +150,10 @@ export default function Works() {
             id="index"
             className="relative z-30 flex w-full flex-col items-center bg-[#0B0B0C] py-[clamp(40px,6.83vw,100px)]"
         >
-            <div className="flex w-full flex-col px-[clamp(10px,2.05vw,30px)]">
+            <div className="flex w-full flex-col px-6 lg:px-[30px]">
 
                 {/* ================= TITLE BLOCK ================= */}
-                <div className="mx-auto w-full max-w-[1464px] select-none [container-type:inline-size]">
+                <div className="w-full select-none [container-type:inline-size]">
                     <h2 className="font-sans text-[clamp(42px,10.38cqw,152px)] font-medium uppercase leading-[clamp(42px,10.93cqw,160px)] tracking-[-0.171px] text-[#FCFCFC]">
                         Featured
                     </h2>
@@ -170,7 +170,7 @@ export default function Works() {
                 </div>
 
                 {/* ================= DESKTOP / TABLET: EXACT FIGMA WORK CONTAINER ================= */}
-                <div className="mx-auto mt-[clamp(40px,4.37vw,64px)] hidden aspect-[1464/3256.93] w-full max-w-[1464px] [container-type:inline-size] md:block">
+                <div className="mt-[clamp(40px,4.37vw,64px)] hidden aspect-[1464/3256.93] w-full [container-type:inline-size] md:block">
                     <div className="relative h-full w-full">
                         {WORKS.map((work) => (
                             <div
@@ -196,7 +196,7 @@ export default function Works() {
                                         fill
                                         priority={work.priority}
                                         className="work-card-image object-cover grayscale brightness-90 will-change-transform"
-                                        sizes="(max-width: 1464px) 50vw, 724px"
+                                        sizes="50vw"
                                         unoptimized
                                     />
                                 </div>
